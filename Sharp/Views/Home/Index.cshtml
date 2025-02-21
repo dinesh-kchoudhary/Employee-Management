@@ -1,0 +1,23 @@
+﻿@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome to Employee Management</h1>
+    <p>Manage your employees efficiently with our tools.</p>
+
+   <div class="mt-4 d-flex justify-content-center gap-3">
+    <a asp-controller="Employee" asp-action="Index" class="btn btn-primary btn-lg shadow-sm">
+        <i class="bi bi-people-fill me-2"></i>Employee List
+    </a>
+
+    <a asp-controller="Employee" asp-action="Titles" class="btn btn-success btn-lg shadow-sm">
+        <i class="bi bi-card-list me-2"></i>Title List
+    </a>
+
+    <button type="button" class="btn btn-warning btn-lg shadow-sm" data-bs-toggle="modal" data-bs-target="#addEmployeeModal">
+        <i class="bi bi-person-plus-fill me-2"></i>Add Employee
+    </button>
+</div>
+</div>
+@await Html.PartialAsync("_AddEmployeeModal")

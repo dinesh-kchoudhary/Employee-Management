@@ -1,0 +1,49 @@
+﻿@model PagedResult<TitleSalaryViewModel>
+@{
+    ViewData["Title"] = "Titles";
+}
+
+<h1>Title List</h1>
+<a asp-controller="Home" asp-action="Index" class="btn btn-secondary mb-3">Back to Home</a>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Min Salary</th>
+            <th>Max Salary</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var title in Model.Items)
+        {
+            <tr>
+                <td>@title.Title</td>
+                <td>@title.MinSalary</td>
+                <td>@title.MaxSalary</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="d-flex justify-content-center mt-4">
+    @if (Model.HasPreviousPage)
+    {
+        <a asp-action="Titles"
+           asp-route-pageNumber="@(Model.PageNumber - 1)"
+           asp-route-pageSize="@Model.PageSize"
+           class="btn btn-primary me-2">
+            Previous
+        </a>
+    }
+
+    <span>Page @Model.PageNumber of @Model.TotalPages</span>
+
+    @if (Model.HasNextPage)
+    {
+        <a asp-action="Titles"
+           asp-route-pageNumber="@(Model.PageNumber + 1)"
+           asp-route-pageSize="@Model.PageSize"
+           class="btn btn-primary ms-2">
+            Next
+        </a>
+    }
+</div>

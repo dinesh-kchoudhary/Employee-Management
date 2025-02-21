@@ -1,0 +1,75 @@
+﻿@model PagedResult<Employee>
+
+<h1>Employee List</h1>
+
+<div class="d-flex align-items-center">
+    <a asp-controller="Home" asp-action="Index" class="btn btn-secondary mt-2 mb-2 me-2">Back to Home</a>
+    <button type="button" class="btn btn-primary mt-2 mb-2 me-2" data-bs-toggle="modal" data-bs-target="#addEmployeeModal">
+        Add Employee
+    </button>
+</div>
+<form method="get" class="mt-3">
+    <div class="row">
+        <div class="col-md-4">
+            <input type="text" name="searchName" class="form-control" placeholder="Search by name" value="@Context.Request.Query["searchName"]" />
+        </div>
+        <div class="col-md-4">
+            <input type="text" name="searchTitle" class="form-control" placeholder="Search by title" value="@Context.Request.Query["searchTitle"]" />
+        </div>
+        <div class="col-md-4">
+            <button type="submit" class="btn btn-primary">Search</button>
+            <a href="@Url.Action("Index")" class="btn btn-secondary">Clear</a>
+        </div>
+    </div>
+</form>
+
+@await Html.PartialAsync("_AddEmployeeModal")
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Title</th>
+            <th>Salary</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var employee in Model.Items)
+        {
+            <tr>
+                <td>@employee.Name</td>
+                <td>@employee.Salaries.Last().Title</td>
+                <td>@employee.Salaries.Last().Salary</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Pagination Controls -->
+<div class="d-flex justify-content-center mt-4">
+    @if (Model.HasPreviousPage)
+    {
+        <a asp-action="Index"
+           asp-route-searchName="@Context.Request.Query["searchName"]"
+           asp-route-searchTitle="@Context.Request.Query["searchTitle"]"
+           asp-route-pageNumber="@(Model.PageNumber - 1)"
+           asp-route-pageSize="@Model.PageSize"
+           class="btn btn-primary me-2">
+            Previous
+        </a>
+    }
+
+    <span>Page @Model.PageNumber of @Model.TotalPages</span>
+
+    @if (Model.HasNextPage)
+    {
+        <a asp-action="Index"
+           asp-route-searchName="@Context.Request.Query["searchName"]"
+           asp-route-searchTitle="@Context.Request.Query["searchTitle"]"
+           asp-route-pageNumber="@(Model.PageNumber + 1)"
+           asp-route-pageSize="@Model.PageSize"
+           class="btn btn-primary ms-2">
+            Next
+        </a>
+    }
+</div>
